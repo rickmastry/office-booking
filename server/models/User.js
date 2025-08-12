@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-const userSchema = mongoose.Schema({
-    _id: {type: String, required: true},
-    username: {type: String, required: true},
+const userSchema = new mongoose.Schema({
+    clerkId: { type: String, required: true, unique: true },
+    username: {type: String},
     email: {type: String, required: true},
-    image: {type: String, required: true},
+    image: {type: String},
     role: {type: String, enum: ["user", "officeAdmin"], default: "user"},
     recentSearchedCities: [{type: String, required: true}],
 }, {timestamps: true})

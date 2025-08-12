@@ -6,17 +6,18 @@ import { clerkMiddleware } from '@clerk/express'
 import clerkWebHooks from './controllers/clerkWebHooks.js'
 
 
+
 connectDB()
 
 const app = express()
 
 app.use(cors())
-
-app.use(express.json())
 app.use(clerkMiddleware())
 
-//API to listen to Clerk Webhooks
-app.use('/api/clerk', clerkWebHooks)
+// Clerk webhook needs raw body
+app.post('/api/clerk', express.raw({ type: 'application/json' }), clerkWebHooks);
+
+app.use(express.json())
 
 app.get('/', (req, res) => res.send("api is working"))
 
