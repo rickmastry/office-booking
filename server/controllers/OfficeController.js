@@ -9,7 +9,7 @@ export const registerOffice = async (req, res) => {
         //check if User already registered
         const office = await office.findOne({owner})
         if(office){
-            return res.json({success: false, message: "Hotel Already Registered"})
+            return res.json({success: false, message: "Office Already Registered"})
         }
 
         await Office.create({name, address, contact, city, owner})

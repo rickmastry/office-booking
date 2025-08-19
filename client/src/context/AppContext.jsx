@@ -51,7 +51,7 @@ export const AppProvider = ({ children }) => {
         try {
             const { data } = await axios.get('/api/workspace')
             if (data.success) {
-                setRooms(data.rooms)
+                setRooms(data.workspaces)
             }
             else {
                 toast.error(data.message)

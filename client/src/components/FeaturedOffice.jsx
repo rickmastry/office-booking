@@ -10,7 +10,7 @@ const FeaturedOffice = () => {
         <div className='flex flex-col items-center px-6 md:px-16 lg:px-24 bg-slate-50 py-20'>
             <Title title='Featured Workspaces' subTitle='Discover our selection of exceptional workspaces, offering unparalleled luxury and unforgotten workspace experiences.' />
             <div className='flex flex-wrap items-center justify-center gap-6 mt-20'>
-                {roomsDummyData.slice(0, 4).map((room, index) => (
+                {(roomsDummyData || []).slice(0, 4).map((room, index) => (
                     <OfficeCard key={room._id} room={room} index={index} />
                 ))}
             </div>

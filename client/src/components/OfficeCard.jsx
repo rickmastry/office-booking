@@ -21,7 +21,7 @@ const OfficeCard = ({ room, index }) => {
                 </div>
                 <p className='font-playfair text-sm text-gray-500'>{room.hotel.city}, <span>{room.hotel.state}</span></p>
                 <div className='flex items-center justify-between mt-4'>
-                    {room.pricing.map((option, index) => (
+                    {(room.pricing || []).map((option, index) => (
                         <p key={index}><span className='text-sm text-gray-500'>${option.price} / {option.billingCycle} </span></p>
                     ))}
 

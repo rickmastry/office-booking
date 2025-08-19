@@ -13,21 +13,37 @@ const AttaReg = () => {
     const [city, setCity] = useState("")
 
     const onSubmitHandler = async (event) => {
+        event.preventDefault();
+
         try {
-            event.preventDefault();
-            const { data } = await axios.post(`/workspace/`, { name, contact, address, city }, { headers: { Authorization: `Bearer ${await getToken()}` } })
+            // Get the Clerk token
+            const token = await getToken();
+
+            if (!token) {
+                toast.error("You must be logged in to register an office.");
+                return;
+            }
+
+            // Send POST request to register office
+            const { data } = await axios.post(
+                `/api/offices/`,
+                { name, contact, address, city },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
 
             if (data.success) {
-                toast.success(data.message)
-                setIsOwner(true)
-                setShowAttaReg(false)
+                toast.success(data.message);
+                setIsOwner(true);
+                setShowAttaReg(false);
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
+
         } catch (error) {
-            toast.error(error.message)
+            console.error("Office registration error:", error);
+            toast.error(error.response?.data?.message || error.message);
         }
-    }
+    };
 
     return (
         <div onClick={() => setShowAttaReg(false)} className="fixed top-0 bottom-0 left-0 right-0 z-100 flex items-center justify-center bg-black/70">
@@ -58,8 +74,8 @@ const AttaReg = () => {
                         <label htmlFor="city" className='font-medium text-gray-500'>City</label>
                         <select onChange={(e) => setCity(e.target.value)} value={city} id="city" className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light" required>
                             <option value="">Select City</option>
-                            {cities.map((city) => (
-                                <option key={city} value={city}>{city}</option>
+                            {(cities || []).map((city, index) => (
+                                <option key={index} value={city}>{city}</option>
                             ))}
                         </select>
                     </div>
