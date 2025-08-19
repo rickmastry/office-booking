@@ -17,8 +17,6 @@ connectCloudinary();
 
 const app = express()
 
-app.use(express.json())
-
 app.use(cors())
 
 app.use(clerkMiddleware())
@@ -26,6 +24,7 @@ app.use(clerkMiddleware())
 // Clerk webhook needs raw body
 app.post('/api/clerk', express.raw({ type: 'application/json' }), clerkWebHooks);
 
+app.use(express.json())
 
 app.get('/', (req, res) => res.send("api is working"))
 app.use('/api/user', UserRouter)

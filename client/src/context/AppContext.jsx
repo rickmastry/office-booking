@@ -14,7 +14,7 @@ export const AppProvider = ({ children }) => {
     const currency = import.meta.env.VITE_CURRENCY || "$";
     const navigate = useNavigate();
     const { user } = useUser();
-    const { getToken } = useAuth()
+    const { getToken } = useAuth();
 
     const [isOwner, setIsOwner] = useState(false);
     const [showAttaReg, setShowAttaReg] = useState(false);
@@ -31,6 +31,11 @@ export const AppProvider = ({ children }) => {
 
     const fetchUser = async () => {
         try {
+            const token = await getToken();
+            if (!token) {
+                console.log("No token available yet");
+                return;
+            }
             const { data } = await axios.get('/api/user', { headers: { Authorization: `Bearer ${await getToken()}` } })
             if (data.success) {
                 setIsOwner(data.role === "officeOwner");
