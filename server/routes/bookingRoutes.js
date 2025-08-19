@@ -1,0 +1,12 @@
+import express from'express'
+import { checkAvailabilityAPI, createBooking, getOfficeBookings, getUserBookings } from '../controllers/bookingController.js'
+import { protect } from '../middleware/authMiddleWare.js';
+
+const bookingRouter = express.Router()
+
+bookingRouter.post('/check-availability', checkAvailabilityAPI)
+bookingRouter.post('/book', protect, createBooking);
+bookingRouter.get('/user', protect, getUserBookings);
+bookingRouter.get('/office', protect, getOfficeBookings);
+
+export default bookingRouter
