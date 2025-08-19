@@ -36,12 +36,12 @@ export const AppProvider = ({ children }) => {
                 console.log("No token available yet");
                 return;
             }
-            const { data } = await axios.get('/api/user', { headers: { Authorization: `Bearer ${await getToken()}` } })
+            const { data } = await axios.get('/api/user', { headers: { Authorization: `Bearer ${token}` } })
             if (data.success) {
                 setIsOwner(data.role === "officeOwner");
                 setSearchedCities(data.recentSearchedCities)
             } else {
-                // Retry Fetching User Details after 5 seconds
+                // Retry Fetching User Details after 2 seconds
                 // Useful when user creates account using email & password
                 setTimeout(() => {
                     fetchUser();
@@ -66,11 +66,22 @@ export const AppProvider = ({ children }) => {
         }
     }
 
+    const { isLoaded } = useAuth();
+
     useEffect(() => {
-        if (user) {
-            fetchUser();
-        }
-    }, [user]);
+        const init = async () => {
+            if (user && isLoaded) {
+                const token = await getToken();
+                if (token) {
+                    fetchUser();
+                } else {
+                    // Retry in 2 second if token not ready yet
+                    setTimeout(init, 2000);
+                }
+            }
+        };
+        init();
+    }, [user, isLoaded]);
 
     useEffect(() => {
         fetchRooms();
