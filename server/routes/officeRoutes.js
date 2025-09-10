@@ -6,7 +6,7 @@ import { registerOffice } from "../controllers/OfficeController.js";
 const officeRouter = express.Router();
 
 
-officeRouter.post('/', requireAuth({ override: true }), registerOffice);
+officeRouter.post('/', requireAuth(), registerOffice);
 
 
 export default officeRouter;
