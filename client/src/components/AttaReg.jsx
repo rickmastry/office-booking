@@ -36,13 +36,13 @@ const AttaReg = () => {
                     params: { t: Date.now() } // adds unique query param to avoid 304
                 }
             );
-
+            console.log("📦 Server response:", data);
             if (data.success) {
                 toast.success(data.message);
                 setIsOwner(true);
                 setShowAttaReg(false);
             } else {
-                toast.error(data.message);
+                toast.error(data.message || "Something went wrong");
             }
 
         } catch (error) {
