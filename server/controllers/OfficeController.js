@@ -14,7 +14,7 @@ export const registerOffice = async (req, res) => {
         // Check if user already registered an office
         const existingOffice = await Office.findOne({ owner });
         if (existingOffice) {
-            return res.json({ success: false, message: "Office Already Registered" });
+            return res.status(400).json({ success: false, message: "Office Already Registered" });
         }
 
         // Create new office
@@ -23,8 +23,8 @@ export const registerOffice = async (req, res) => {
         // Update user role
         await User.findByIdAndUpdate(owner, { role: "officeOwner" });
 
-        res.json({ success: true, message: "Office registered successfully" });
+        return res.status(201).json({ success: true, message: "Office registered successfully" });
     } catch (error) {
-        res.json({ success: false, message: error.message });
+        return res.status(500).json({ success: false, message: error.message });
     }
 }
