@@ -29,7 +29,12 @@ const AttaReg = () => {
             const { data } = await axios.post(
                 `/api/offices/`,
                 { name, contact, address, city },
-                { headers: { Authorization: `Bearer ${token}` } }
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                    // Add this to prevent caching
+                    validateStatus: (status) => status < 500,
+                    params: { t: Date.now() } // adds unique query param to avoid 304
+                }
             );
 
             if (data.success) {
