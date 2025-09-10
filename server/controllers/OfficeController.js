@@ -5,7 +5,7 @@ export const registerOffice = async (req, res) => {
     try {
         console.log("registerOffice called, req.auth:", req.auth);
         const {name, address, contact, city} = req.body;
-        const owner = req.auth?.userId;
+        const owner = req.auth.userId;
 
          if (!owner) {
           return res.status(401).json({ success: false, message: "Not authenticated" });
