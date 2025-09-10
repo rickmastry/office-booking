@@ -6,6 +6,6 @@ import { requireAuth } from "@clerk/express";
 const UserRouter = express.Router();
 
 UserRouter.get('/', requireAuth(), getUserData);
-UserRouter.post('/store-recent-search', protect, storeRecentSearchedCities);
+UserRouter.post('/store-recent-search', requireAuth(), storeRecentSearchedCities);
 
 export default UserRouter;
