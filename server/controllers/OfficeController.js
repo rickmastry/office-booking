@@ -4,6 +4,8 @@ import User from "../models/User.js";
 export const registerOffice = async (req, res) => {
     try {
         console.log("registerOffice called, req.auth:", req.auth);
+        console.log("req.auth:", req.auth); // debug Clerk
+        console.log("req.user:", req.user); // debug user
         const {name, address, contact, city} = req.body;
         const owner = req.auth.userId;
 
