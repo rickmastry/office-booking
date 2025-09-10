@@ -17,8 +17,12 @@ connectCloudinary();
 
 const app = express()
 
-app.use(cors())
-
+app.use(
+  cors({
+    origin: "http://localhost:5173",  // your Vite frontend
+    credentials: true,
+  })
+);
 app.use(clerkMiddleware())
 
 // Clerk webhook needs raw body
@@ -26,7 +30,7 @@ app.post('/api/clerk', express.raw({ type: 'application/json' }), clerkWebHooks)
 
 app.use(express.json())
 
-app.get('/', (req, res) => res.send("api is working"))
+app.get('/', (req, res) => res.send("api isss working"))
 app.use('/api/user', UserRouter)
 app.use('/api/offices', officeRouter)
 app.use('/api/workspace', workspaceRouter)

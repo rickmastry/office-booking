@@ -1,5 +1,6 @@
 // authMiddleware.js
 import { sessions } from '@clerk/clerk-sdk-node';
+import { verifyToken } from "@clerk/backend";
 import User from '../models/User.js';
 
 export const protect = async (req, res, next) => {
@@ -13,16 +14,27 @@ export const protect = async (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     // Verify token with Clerk
-    const session = await sessions.verifySessionToken(token);
+    /*const session = await sessions.verifySessionToken(token);
     if (!session || !session.userId) {
       return res.status(401).json({ success: false, message: 'Invalid token' });
-    }
+    }*/
+
+     const { payload } = await verifyToken(token, {
+      secretKey: process.env.CLERK_SECRET_KEY,
+    }); 
+
+     const clerkUserId = payload.sub;
 
     // Find user in your database or create if not exists
-    let user = await User.findById(session.userId);
+    let user = await User.findById(clerkUserId);
+    if (!user) {
+      user = await User.create({ _id: clerkUserId, role: "user" });
+    }
+
+   /* let user = await User.findById(session.userId);
     if (!user) {
       user = await User.create({ _id: session.userId, role: 'user' }); // optional default role
-    }
+    }*/
 
     req.user = user;
     next();

@@ -33,7 +33,8 @@ export const AppProvider = ({ children }) => {
         try {
             const token = await getToken();
             if (!token) {
-                console.log("No token available yet");
+                console.log("No token yet, retrying in 2s...");
+                setTimeout(fetchUser, 2000);
                 return;
             }
             const { data } = await axios.get('/api/user', { headers: { Authorization: `Bearer ${token}` } })
@@ -70,14 +71,15 @@ export const AppProvider = ({ children }) => {
 
     useEffect(() => {
         const init = async () => {
-            if (user && isLoaded) {
-                const token = await getToken();
-                if (token) {
-                    fetchUser();
-                } else {
-                    // Retry in 2 second if token not ready yet
-                    setTimeout(init, 2000);
-                }
+            if (!isLoaded) return; // Wait until Clerk is fully loaded
+            if (!user) return;     // Only run if a Clerk user exists
+
+            const token = await getToken();
+            if (token) {
+                fetchUser();
+            } else {
+                console.log("Token not ready, retrying init in 2s...");
+                setTimeout(init, 2000);
             }
         };
         init();
