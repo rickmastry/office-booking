@@ -47,6 +47,7 @@ const AttaReg = () => {
 
         } catch (error) {
             console.error("Office registration error:", error);
+            console.error("Axios error response:", error.response);
             const message = error.response?.data?.message || error.message || "An unexpected error occurred";
             toast.error(message);
         }
