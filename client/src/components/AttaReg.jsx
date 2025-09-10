@@ -42,7 +42,8 @@ const AttaReg = () => {
 
         } catch (error) {
             console.error("Office registration error:", error);
-            toast.error(error.response?.data?.message || error.message);
+            const message = error.response?.data?.message || error.message || "An unexpected error occurred";
+            toast.error(message);
         }
     };
 

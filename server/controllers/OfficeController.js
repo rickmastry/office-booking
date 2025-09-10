@@ -4,7 +4,11 @@ import User from "../models/User.js";
 export const registerOffice = async (req, res) => {
     try {
         const {name, address, contact, city} = req.body;
-        const owner = req.user._id;
+        const owner = req.auth.userId;
+
+         if (!owner) {
+          return res.status(401).json({ success: false, message: "Not authenticated" });
+         }
 
         // Check if user already registered an office
         const existingOffice = await Office.findOne({ owner });
