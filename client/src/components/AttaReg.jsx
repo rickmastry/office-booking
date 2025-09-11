@@ -18,8 +18,6 @@ const AttaReg = () => {
         try {
             // Get the Clerk token
             const token = await getToken();
-            console.log("Clerk token:", token);
-
             if (!token) {
                 toast.error("You must be logged in to register an office.");
                 return;
