@@ -2,6 +2,7 @@ import Office from "../models/Office.js";
 import User from "../models/User.js";
 
 export const registerOffice = async (req, res) => {
+    console.log("registerOffice hit, req.body:", req.body, "req.auth:", req.auth);
     try {
 
         const {name, address, contact, city} = req.body;
@@ -27,7 +28,8 @@ export const registerOffice = async (req, res) => {
         }
 
         // Create new office
-        await Office.create({ name, address, contact, city, owner });
+        const newOffice = await Office.create({ name, address, contact, city, owner });
+        console.log("office created:", newOffice)
 
         // Update user role
         await User.findByIdAndUpdate(owner, { role: "officeOwner" });
