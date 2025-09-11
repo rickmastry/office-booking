@@ -8,7 +8,7 @@ const workspaceRouter = express.Router();
 
 workspaceRouter.post('/', upload.array("images", 4),createRoom);
 workspaceRouter.get('/', getRooms);
-workspaceRouter.get('/owner', protect, getOwnerRooms);
+workspaceRouter.get('/owner', requireAuth(), getOwnerRooms);
 workspaceRouter.post('/toggle-availability', requireAuth(), toggleRoomAvailability);
 
 
