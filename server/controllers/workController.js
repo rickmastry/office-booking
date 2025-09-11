@@ -53,7 +53,7 @@ export const getRooms = async (req, res) => {
 //api to get all rooms for a specific office location
 export const getOwnerRooms = async (req, res) => {
     try {
-        const officeData = await Office({owner: req.auth.userId})
+        const officeData = await Office.findOne({owner: req.auth.userId})
         const workspaces = await Workspace.find({office: officeData._id.toString()}).populate("office");
          res.json({sucess: true, workspaces})
     } catch (error) {
