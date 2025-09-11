@@ -30,8 +30,8 @@ const AttaReg = () => {
                 {
                     headers: { Authorization: `Bearer ${token}` },
                     // Add this to prevent caching
-                    validateStatus: (status) => status < 500,
-                    params: { t: Date.now() } // adds unique query param to avoid 304
+                    //validateStatus: (status) => status < 500,
+                    //params: { t: Date.now() } // adds unique query param to avoid 304
                 }
             );
             console.log("📦 Server response:", data);
