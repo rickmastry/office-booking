@@ -25,7 +25,7 @@ const AttaReg = () => {
 
             // Send POST request to register office
             const { data } = await axios.post(
-                `/api/offices`,
+                `https://office-booking-backend.vercel.app/api/offices`,
                 { name, contact, address, city },
                 {
                     headers: { Authorization: `Bearer ${token}` },
